@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Lang\Lang;
 use Slim\Http\Response;
 
 class Http {
@@ -31,8 +32,10 @@ class Http {
     }
 
     public static function getJsonResponseErrorServer(Response $response, $error) {
+        $lang = Lang::getLang();
+
         return $response->withJson([
-            'message' => 'Não foi possível atendar a solicitação no momento, por favor, aguarde uns instantes.',
+            'message' => $lang->serverError(),
             'status' => self::SERVER_ERROR,
         ], self::SERVER_ERROR);
     }

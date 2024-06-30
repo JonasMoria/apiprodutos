@@ -12,9 +12,10 @@ final class ApiService {
 
     public function ping(Request $request, Response $response, array $args) {
         try {
-            $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+            $lang = Lang::getLang();
+
             $apiStatus['pong'] = true;
-            return Http::getJsonReponseSuccess($response, $apiStatus, Lang::getSuccessLabel($lang), Http::OK);
+            return Http::getJsonReponseSuccess($response, $apiStatus, $lang->success(), Http::OK);
 
         } catch (InvalidInputException $error) {
             return Http::getJsonReponseError($response, $error->getMessage(), Http::BAD_REQUEST);
