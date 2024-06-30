@@ -9,4 +9,7 @@ $api->group('/api', function() use ($api) {
     $api->get('/ping', ApiController::class . ':testConnection');
 });
 
+// private routes
+
+
 $api->run();
