@@ -33,4 +33,8 @@ class Lang {
     public function success(LangInterface $lang) {
         return $lang->success();
     }
+
+    public function invalidId(LangInterface $lang) {
+            return $lang->invalidId();
+    }
 }

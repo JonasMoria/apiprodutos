@@ -8,7 +8,7 @@ use Slim\Http\Response;
 
 final class ApiController {
 
-    private $service;
+    private ApiService $service;
 
     public function __construct() {
         $this->service = new ApiService();
@@ -16,6 +16,10 @@ final class ApiController {
 
     public function testConnection(Request $request, Response $response, array $args) : Response {
         return $this->service->ping($request, $response, $args);
+    }
+
+    public function register(Request $request, Response $response, array $args) {
+        return $this->service->registerUser($request, $response, $args);
     }
 
 }
