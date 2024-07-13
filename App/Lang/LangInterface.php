@@ -13,4 +13,5 @@ interface LangInterface {
     public function loginSuccess();
     public function accountNotFound();
     public function inactiveAccount();
+    public function tokenExpired();
 }

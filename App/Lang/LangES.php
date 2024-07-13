@@ -38,4 +38,8 @@ class LangES implements LangInterface {
     public function inactiveAccount() {
         return 'Cuenta desactivada. Póngase en contacto con nuestro soporte para más información.';
     }
+
+    public function tokenExpired() {
+        return 'Token de acceso caducado. ingresar de nuevo.';
+    }
 }

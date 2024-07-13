@@ -40,4 +40,8 @@ class LangEN implements LangInterface {
     public function inactiveAccount() {
         return 'Account deactivated. Contact our support for more information.';
     }
+
+    public function tokenExpired() {
+        return 'Expired access token. login again.';
+    }
 }

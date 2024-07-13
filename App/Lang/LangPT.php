@@ -40,4 +40,8 @@ class LangPT implements LangInterface {
     public function inactiveAccount() {
         return 'Conta desativada. Entre em contato com nosso suporte para mais informações.';
     }
+
+    public function tokenExpired() {
+        return 'Token de acesso expirado. Realize o login novamente.';
+    }
 }

@@ -23,7 +23,7 @@ class StoreService {
                 throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
             }
 
-            return Http::getJsonReponseSuccess($response, ['created'], 'teste', Http::CREATED);
+            return Http::getJsonReponseSuccess($response, [], 'teste', Http::CREATED);
         } catch (InvalidInputException $error) {
             return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
         } catch (\Exception $error) {

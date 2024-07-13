@@ -2,6 +2,8 @@
 
 use App\Controllers\ApiController;
 use App\Controllers\StoreController;
+use App\Helpers\Auth;
+use Slim\Http\Request;
 
 $api = new \Slim\App();
 
@@ -15,7 +17,9 @@ $api->group('/api', function() use ($api) {
 // private routes
 $api->group('/api/store', function() use ($api) {
     $api->post('/register', StoreController::class . ':putStore');
-});
+})
+->add(Auth::class . ':validateJwtToken')
+->add(Auth::jwtAuth());
 
 
 $api->run();
