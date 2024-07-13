@@ -2,7 +2,12 @@
 
 namespace App\Helpers;
 
+use App\Exceptions\InvalidInputException;
+use App\Traits\DatabaseFlags;
+
 class Validator {
+    use DatabaseFlags;
+
     public static function validateId(int $id) {
         if ($id < 0) {
             return false;
@@ -24,5 +29,13 @@ class Validator {
      */
     public static function validatePassword(string $password) {
         return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\w$@]{6,}$/', $password);
+    }
+
+    public static function validateActiveAccount($storeAccount) {
+        if ($storeAccount['store_status'] == self::FLAG_INACTIVE) {
+            return false;
+        }
+
+        return true;
     }
 }

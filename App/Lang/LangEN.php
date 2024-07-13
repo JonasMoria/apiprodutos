@@ -28,4 +28,16 @@ class LangEN implements LangInterface {
     public function notParamsDetected() {
         return 'Unidentified parameters.';
     }
+
+    public function loginSuccess() {
+        return 'Login successful.';
+    }
+
+    public function accountNotFound() {
+        return 'Incorrect username or password.';
+    }
+
+    public function inactiveAccount() {
+        return 'Account deactivated. Contact our support for more information.';
+    }
 }

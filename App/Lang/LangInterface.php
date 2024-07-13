@@ -10,4 +10,7 @@ interface LangInterface {
     public function invalidStoreEmail();
     public function invalidPassword();
     public function notParamsDetected();
+    public function loginSuccess();
+    public function accountNotFound();
+    public function inactiveAccount();
 }

@@ -26,4 +26,16 @@ class LangES implements LangInterface {
     public function notParamsDetected() {
         return 'Parámetros no identificados.';
     }
+
+    public function loginSuccess() {
+        return 'Inicio de sesión correcto.';
+    }
+
+    public function accountNotFound() {
+        return 'Usuario o contraseña incorrectos.';
+    }
+
+    public function inactiveAccount() {
+        return 'Cuenta desactivada. Póngase en contacto con nuestro soporte para más información.';
+    }
 }

@@ -6,8 +6,9 @@ use App\Database\Connection;
 use App\Helpers\Utils;
 use App\Models\StoreModel;
 use App\Traits\DatabaseFlags;
+use PDO;
 
-class StoreDAO extends Connection {
+final class StoreDAO extends Connection {
     //Traits
     use DatabaseFlags;
     // Vars
@@ -34,5 +35,27 @@ class StoreDAO extends Connection {
                 Utils::convertToSha512($store->getPassword()),
                 self::FLAG_ACTIVE
             ]);
+    }
+
+    public function getStoreAccess(StoreModel $store) {
+        $query = "
+            SELECT
+                S.store_id,
+                S.store_email,
+                S.store_status
+            FROM
+                " . $this->table . " S
+            WHERE
+                S.store_email = ?
+                AND S.store_password = ?
+        ";
+
+        $request = $this->database->prepare($query);
+        $request->execute([
+            $store->getEmail(),
+            Utils::convertToSha512($store->getPassword()),
+        ]);
+
+        return $request->fetchAll(PDO::FETCH_ASSOC);
     }
 }

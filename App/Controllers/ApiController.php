@@ -18,8 +18,12 @@ final class ApiController {
         return $this->service->ping($request, $response, $args);
     }
 
-    public function register(Request $request, Response $response, array $args) {
+    public function register(Request $request, Response $response, array $args) : Response {
         return $this->service->registerUser($request, $response, $args);
+    }
+
+    public function login(Request $request, Response $response, array $args) : Response {
+        return $this->service->loginUser($request, $response, $args);
     }
 
 }

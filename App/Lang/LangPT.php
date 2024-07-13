@@ -28,4 +28,16 @@ class LangPT implements LangInterface {
     public function notParamsDetected() {
         return 'Parâmetros não indentificados.';
     }
+
+    public function loginSuccess() {
+        return 'Login realizado com sucesso.';
+    }
+
+    public function accountNotFound() {
+        return 'Usuário ou senha incorretos.';
+    }
+
+    public function inactiveAccount() {
+        return 'Conta desativada. Entre em contato com nosso suporte para mais informações.';
+    }
 }
