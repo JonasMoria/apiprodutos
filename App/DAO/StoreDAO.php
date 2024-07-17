@@ -19,6 +19,24 @@ final class StoreDAO extends Connection {
         $this->database = self::getPDOConnection();
     }
 
+    public function getStoreByEmail(string $email) {
+        $query = "
+            SELECT
+                S.store_id
+            FROM
+                " . $this->table . " S
+            WHERE
+                S.store_email = ?
+        ";
+
+        $request = $this->database->prepare($query);
+        $request->execute([
+            $email
+        ]);
+
+        return $request->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function insertStore(StoreModel $store) {
         $query = "
             INSERT INTO " . $this->table . "

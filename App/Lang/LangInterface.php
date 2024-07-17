@@ -14,4 +14,8 @@ interface LangInterface {
     public function accountNotFound();
     public function inactiveAccount();
     public function tokenExpired();
+    public function invalidCNPJ();
+    public function storeAlreadyExists();
+    public function storeInformationRegistered();
+    public function storeInformationAlreadyRegistered();
 }

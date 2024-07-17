@@ -45,6 +45,11 @@ final class ApiService {
             $store->setPassword($params['password']);
 
             $storeDAO = new StoreDAO();
+
+            if ($storeDAO->getStoreByEmail($store->getEmail())) {
+                throw new InvalidInputException($this->lang->storeAlreadyExists(), Http::BAD_REQUEST);
+            }
+
             $storeDAO->insertStore($store);
 
            return Http::getJsonReponseSuccess($response, [], $this->lang->success(), Http::OK);

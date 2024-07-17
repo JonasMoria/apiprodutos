@@ -44,4 +44,20 @@ class LangEN implements LangInterface {
     public function tokenExpired() {
         return 'Expired access token. login again.';
     }
+
+    public function invalidCNPJ() {
+        return 'invalid CNPJ';
+    }
+
+    public function storeAlreadyExists() {
+        return 'Store already registered in the system.';
+    }
+
+    public function storeInformationRegistered() {
+        return 'Information registered successfully.';
+    }
+
+    public function storeInformationAlreadyRegistered() {
+        return 'Information already registered in the system.';
+    }
 }

@@ -44,4 +44,20 @@ class LangPT implements LangInterface {
     public function tokenExpired() {
         return 'Token de acesso expirado. Realize o login novamente.';
     }
+
+    public function invalidCNPJ() {
+        return 'CNPJ inválido.';
+    }
+
+    public function storeAlreadyExists() {
+        return 'Loja já cadastrada no sistema.';
+    }
+
+    public function storeInformationRegistered() {
+        return 'Informações cadastradas com sucesso.';
+    }
+
+    public function storeInformationAlreadyRegistered() {
+        return 'Informações já cadastradas no sistema.';
+    }
 }

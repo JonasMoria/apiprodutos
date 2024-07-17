@@ -42,4 +42,20 @@ class LangES implements LangInterface {
     public function tokenExpired() {
         return 'Token de acceso caducado. ingresar de nuevo.';
     }
+
+    public function invalidCNPJ() {
+        return 'CNPJ no válido';
+    }
+
+    public function storeAlreadyExists() {
+        return 'Tienda ya registrada en el sistema.';
+    }
+
+    public function storeInformationRegistered() {
+        return 'Información registrada exitosamente.';
+    }
+
+    public function storeInformationAlreadyRegistered() {
+        return 'Información ya registrada en el sistema.';        
+    }
 }
