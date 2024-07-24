@@ -60,4 +60,24 @@ class LangPT implements LangInterface {
     public function storeInformationAlreadyRegistered() {
         return 'Informações já cadastradas no sistema.';
     }
+
+    public function notBase64valid() {
+        return 'Arquivo base64 inválido.';
+    }
+
+    public function imageRegistered() {
+        return 'Imagem cadastrada com sucesso.';
+    }
+
+    public function noFolderCreated() {
+        return 'Falha ao criar seu diretório. Tente novamente mais tarde ou contate nosso suporte.';
+    }
+
+    public function noImageCreated() {
+        return 'Falha ao criar a imagem. Tente novamente mais tarde ou contate nosso suporte.';
+    }
+
+    public function logoAlreadyExists() {
+        return 'Logo da loja já criado.';
+    }
 }

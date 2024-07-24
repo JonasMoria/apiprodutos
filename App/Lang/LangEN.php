@@ -60,4 +60,24 @@ class LangEN implements LangInterface {
     public function storeInformationAlreadyRegistered() {
         return 'Information already registered in the system.';
     }
+
+    public function notBase64valid() {
+        return 'Invalid base64 file.';     
+    }
+
+    public function imageRegistered() {
+        return 'Image registered successfully.';
+    }
+
+    public function noFolderCreated() {
+        return 'Failed to create your directory. Please try again later or contact our support.';
+    }
+
+    public function noImageCreated() {
+        return 'Failed to create the image. Please try again later or contact our support.';
+    }
+
+    public function logoAlreadyExists() {
+        return 'Store logo already created.';
+    }
 }

@@ -16,6 +16,7 @@ $api->group('/api', function() use ($api) {
 // private routes
 $api->group('/api/store', function() use ($api) {
     $api->post('/register', StoreController::class . ':putStore');
+    $api->post('/update/logo', StoreController::class . ':putLogoImage');
 })
 ->add(AuthMiddleware::class . ':validateJwtToken')
 ->add(AuthMiddleware::jwtAuth());

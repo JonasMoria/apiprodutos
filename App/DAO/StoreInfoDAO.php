@@ -53,4 +53,41 @@ final class StoreInfoDAO extends Connection {
                 $store->getStoreLongitude()
             ]);
     }
+
+    public function putStoreLogo(int $storeId, string $logoPath) {
+        $query = "
+            UPDATE " . $this->table . "
+            SET
+                store_path_logo = ?
+            WHERE
+                store_info_store_id = ?
+            LIMIT 1
+        ";
+    
+        $this->database
+            ->prepare($query)
+            ->execute([
+                $logoPath,
+                $storeId
+            ]);
+    }
+
+    public function getStorePathLogo(int $storeId) {
+        $query = "
+            SELECT
+                SI.store_path_logo
+            FROM
+                " . $this->table . " SI
+            WHERE
+                SI.store_info_store_id = ?
+            LIMIT 1
+        ";
+
+        $request = $this->database->prepare($query);
+        $request->execute([
+            $storeId
+        ]);
+
+        return $request->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

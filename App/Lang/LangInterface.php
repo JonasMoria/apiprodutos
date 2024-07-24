@@ -18,4 +18,9 @@ interface LangInterface {
     public function storeAlreadyExists();
     public function storeInformationRegistered();
     public function storeInformationAlreadyRegistered();
+    public function notBase64valid();
+    public function imageRegistered();
+    public function noFolderCreated();
+    public function noImageCreated();
+    public function logoAlreadyExists();
 }

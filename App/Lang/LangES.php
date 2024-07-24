@@ -58,4 +58,24 @@ class LangES implements LangInterface {
     public function storeInformationAlreadyRegistered() {
         return 'Información ya registrada en el sistema.';        
     }
+
+    public function notBase64valid() {
+        return 'Archivo base64 no válido.';
+    }
+
+    public function imageRegistered() {
+        return 'Imagen registrada exitosamente.';
+    }
+
+    public function noFolderCreated() {
+        return 'No se pudo crear su directorio. Inténtelo de nuevo más tarde o comuníquese con nuestro soporte.';
+    }
+
+    public function noImageCreated() {
+        return 'No se pudo crear la imagen. Inténtelo de nuevo más tarde o comuníquese con nuestro soporte.';
+    }
+
+    public function logoAlreadyExists() {
+        return 'Logotipo de la tienda ya creado.';
+    }
 }
