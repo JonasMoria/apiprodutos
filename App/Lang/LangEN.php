@@ -80,4 +80,41 @@ class LangEN implements LangInterface {
     public function logoAlreadyExists() {
         return 'Store logo already created.';
     }
+
+    public function noProductId() {
+        return 'Invalid product id.';
+    }
+
+    public function noCountViews() {
+        return 'Number of views not found.';
+    }
+
+    public function namePtNotDefined() {
+        return 'Product name in Portuguese is invalid.';
+    }
+
+    public function nameEnNotDefined() {
+        return 'Invalid English product name.';
+    }
+
+    public function nameEsNotDefined() {
+        return 'Invalid Spanish product name.';
+    }
+
+    public function invalidSku() {
+        return 'Invalid SKU code.';
+    }
+
+    public function invalidProductStatus() {
+        return 'Product status not identified.';
+    }
+
+    public function insertProductFail() {
+        return 'Unable to register the product now. Try again later.';
+    }
+    
+    public function insertProductSuccess() {
+        return 'Product registered successfully.';
+    }
+
 }

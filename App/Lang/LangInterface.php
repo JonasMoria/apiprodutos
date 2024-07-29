@@ -23,4 +23,12 @@ interface LangInterface {
     public function noFolderCreated();
     public function noImageCreated();
     public function logoAlreadyExists();
+    public function noProductId();
+    public function noCountViews();
+    public function namePtNotDefined();
+    public function nameEnNotDefined();
+    public function nameEsNotDefined();
+    public function invalidSku();
+    public function invalidProductStatus();
+    public function insertProductSuccess();
 }

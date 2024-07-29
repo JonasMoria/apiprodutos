@@ -78,4 +78,41 @@ class LangES implements LangInterface {
     public function logoAlreadyExists() {
         return 'Logotipo de la tienda ya creado.';
     }
+
+    public function noProductId() {
+        return 'ID de producto no válido.';
+    }
+    
+    public function noCountViews() {
+        return 'Número de vistas no encontradas.';
+    }
+    
+    public function namePtNotDefined() {
+        return 'El nombre del producto en portugués no es válido.';
+    }
+    
+    public function nameEnNotDefined() {
+        return 'Nombre de producto en inglés no válido.';
+    }
+    
+    public function nameEsNotDefined() {
+        return 'Nombre de producto en español no válido.';
+    }
+    
+    public function invalidSku() {
+        return 'Código SKU no válido.';
+    }
+    
+    public function invalidProductStatus() {
+        return 'Estado del producto no identificado.';
+    }
+
+    public function insertProductFail() {
+        return 'No se puede registrar el producto ahora. Vuelve a intentarlo más tarde.';
+    }
+    
+    public function insertProductSuccess() {
+        return 'Producto registrado exitosamente.';
+    }
+    
 }

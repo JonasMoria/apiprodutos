@@ -63,4 +63,24 @@ class Validator {
         $resto = $soma % 11;
         return $cnpj[13] == ($resto < 2 ? 0 : 11 - $resto);
     }
+
+    public static function validateName(string $name) {
+        if (empty(trim($name))) {
+            return false;
+        }
+
+        if (strlen($name) < 3 || strlen($name) > 256) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function validateDatabaseStatus(int $status) {
+        if (!in_array($status, [self::FLAG_ACTIVE, self::FLAG_INACTIVE])) {
+            return false;
+        }
+
+        return true;
+    }
 }

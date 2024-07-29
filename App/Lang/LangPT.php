@@ -80,4 +80,41 @@ class LangPT implements LangInterface {
     public function logoAlreadyExists() {
         return 'Logo da loja já criado.';
     }
+
+    public function noProductId() {
+        return 'Id do produto inválido.';
+    }
+
+    public function noCountViews() {
+        return 'Quantidade de visualizações não encontrada.';
+    }
+
+    public function namePtNotDefined() {
+        return 'Nome do produto em português inválido.';
+    }
+
+    public function nameEnNotDefined() {
+        return 'Nome do produto em inglês inválido.';
+    }
+
+    public function nameEsNotDefined() {
+        return 'Nome do produto em espanhol inválido.';
+    }
+
+    public function invalidSku() {
+        return 'Código SKU inválido.';
+    }
+
+    public function invalidProductStatus() {
+        return 'Status do produto não identificado.';
+    }
+
+    public function insertProductFail() {
+        return 'Não foi possível cadastrar o produto agora. Tente novamente mais tarde.';
+    }
+    
+    public function insertProductSuccess() {
+        return 'Produto cadastrado com sucesso.';
+    }
+
 }

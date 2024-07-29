@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\ApiController;
+use App\Controllers\ProductController;
 use App\Controllers\StoreController;
 use App\Middlewares\AuthMiddleware;
 
@@ -17,6 +18,12 @@ $api->group('/api', function() use ($api) {
 $api->group('/api/store', function() use ($api) {
     $api->post('/register', StoreController::class . ':putStore');
     $api->post('/update/logo', StoreController::class . ':putLogoImage');
+})
+->add(AuthMiddleware::class . ':validateJwtToken')
+->add(AuthMiddleware::jwtAuth());
+
+$api->group('/api/store/product', function() use ($api) {
+    $api->post('/register', ProductController::class . ':putProduct');
 })
 ->add(AuthMiddleware::class . ':validateJwtToken')
 ->add(AuthMiddleware::jwtAuth());
