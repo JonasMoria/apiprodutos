@@ -8,6 +8,7 @@ interface LangInterface {
     public function success();
     public function invalidId();
     public function invalidStoreEmail();
+    public function invalidStoreName();
     public function invalidPassword();
     public function notParamsDetected();
     public function loginSuccess();
@@ -31,4 +32,5 @@ interface LangInterface {
     public function invalidSku();
     public function invalidProductStatus();
     public function insertProductSuccess();
+    public function noDataToUpdate();
 }

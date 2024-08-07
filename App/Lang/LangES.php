@@ -19,6 +19,10 @@ class LangES implements LangInterface {
         return 'Correo electrónico de la tienda no válido.';
     }
 
+    public function invalidStoreName() {
+        return 'Nombre de tienda no válido.';
+    }
+
     public function invalidPassword(): string {
         return 'La contraseña no cumple con los requisitos necesarios.';
     }
@@ -115,4 +119,7 @@ class LangES implements LangInterface {
         return 'Producto registrado exitosamente.';
     }
     
+    public function noDataToUpdate() {
+        return 'No se encontraron datos actualizados.';
+    }
 }

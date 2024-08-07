@@ -21,6 +21,10 @@ class LangEN implements LangInterface {
         return 'Invalid store email.';
     }
 
+    public function invalidStoreName() {
+        return 'Invalid store name.';
+    }
+
     public function invalidPassword(): string {
         return 'Password does not meet the necessary requirements.';
     }
@@ -117,4 +121,7 @@ class LangEN implements LangInterface {
         return 'Product registered successfully.';
     }
 
+    public function noDataToUpdate() {
+        return 'No data found to be updated.';
+    }
 }

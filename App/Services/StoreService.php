@@ -8,6 +8,7 @@ use App\Exceptions\UploadException;
 use App\Helpers\Http;
 use App\Helpers\ImageManager;
 use App\Helpers\Utils;
+use App\Helpers\Validator;
 use App\Lang\Lang;
 use App\Lang\LangInterface;
 use App\Models\StoreInformationModel;
@@ -98,6 +99,62 @@ class StoreService {
             return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
         } catch (UploadException $upError) {
             return Http::getJsonReponseError($response, $upError->getMessage(), $upError->getCode());
+        } catch (\Exception $error) {
+            return Http::getJsonResponseErrorServer($response, $error);
+        }
+    }
+
+    public function updateStore(Request $request, Response $response, array $args) : Response {
+        try {
+            $params = $request->getParsedBody();
+            $loginParams = $request->getAttribute('jwt');
+
+            if (!$params || !$loginParams) {
+                throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
+            }
+
+            $fieldsToUpdate = [];
+            if (isset($params['name'])) {
+                $name = Utils::removeDoubleSpaces($params['name']);
+                if (!Validator::validateName($params['name'])) {
+                    throw new InvalidInputException($this->lang->invalidStoreName(), Http::BAD_REQUEST);
+                }
+                $fieldsToUpdate['name'] = $name;
+            }
+    
+            if (isset($params['email'])) {
+                if (!Validator::validateEmail($params['email'])) {
+                    throw new InvalidInputException($this->lang->invalidStoreEmail(), Http::BAD_REQUEST);
+                }
+                $fieldsToUpdate['email'] = $params['email'];
+            }
+    
+            if (isset($params['cnpj'])) {
+                $cnpj = Utils::filterNumbersOnly($params['cnpj']);
+                if (!Validator::validateCNPJ($cnpj)) {
+                    throw new InvalidInputException($this->lang->invalidCNPJ(), Http::BAD_REQUEST);
+                }
+                $fieldsToUpdate['cnpj'] = $cnpj;
+            }
+    
+            if (isset($params['lat']) && isset($params['lon'])) {
+                $fieldsToUpdate['lat'] = $params['lat'];
+                $fieldsToUpdate['lon'] = $params['lon'];
+            }
+
+            if (empty($fieldsToUpdate)) {
+                throw new InvalidInputException($this->lang->noDataToUpdate(), Http::BAD_REQUEST);
+            }
+
+            $fieldsToUpdate['store_id'] = $loginParams['store_id'];
+
+            $storeInfoDAO = new StoreInfoDAO();
+            $storeInfoDAO->updateStore($fieldsToUpdate);
+
+            return Http::getJsonReponseSuccess($response, [], $this->lang->storeInformationRegistered(), Http::CREATED);
+
+        } catch (InvalidInputException $error) {
+            return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
         } catch (\Exception $error) {
             return Http::getJsonResponseErrorServer($response, $error);
         }

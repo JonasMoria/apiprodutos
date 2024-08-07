@@ -17,6 +17,10 @@ class StoreController {
         return $this->service->createStore($request, $response, $args);
     }
 
+    public function updateStore(Request $request, Response $response, array $args) : Response  {
+        return $this->service->updateStore($request, $response, $args);
+    }
+
     public function putLogoImage(Request $request, Response $response, array $args) : Response {
         return $this->service->putStoreLogo($request, $response, $args);
     }

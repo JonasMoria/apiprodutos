@@ -90,4 +90,54 @@ final class StoreInfoDAO extends Connection {
 
         return $request->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function updateStore(array $storeFields) {
+        $queryBuild = $this->convertObjectToSql($storeFields);
+
+        $query = "
+            UPDATE " . $this->table . "
+            SET
+            " . $queryBuild['sets'] . "
+            WHERE
+                store_info_store_id = ?
+            LIMIT 1
+        ";
+
+        $this->database
+            ->prepare($query)
+            ->execute($queryBuild['params']);
+    }
+
+    private function convertObjectToSql(array $storeFields) {
+        $arrayPrepare = [];
+        $sets = [];
+
+        if (isset($storeFields['name'])) {
+            array_push($sets,'store_name = ?');
+            array_push($arrayPrepare, $storeFields['name']);
+        }
+
+        if (isset($storeFields['email'])) {
+            array_push($sets,'store_email = ?');
+            array_push($arrayPrepare, $storeFields['email']);
+        }
+
+        if (isset($storeFields['cnpj'])) {
+            array_push($sets,'store_cnpj = ?');
+            array_push($arrayPrepare, $storeFields['cnpj']);
+        }
+
+        if (isset($storeFields['lat']) && isset($storeFields['lon'])) {
+            array_push($sets,'store_coordinate = POINT(?, ?)');
+            array_push($arrayPrepare, $storeFields['lat']);
+            array_push($arrayPrepare, $storeFields['lon']);
+        }
+
+        array_push($arrayPrepare, $storeFields['store_id']);
+
+        return [
+            'sets' => implode(',', $sets),
+            'params' => $arrayPrepare
+        ];
+    }
 }

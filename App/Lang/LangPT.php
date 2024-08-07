@@ -21,6 +21,10 @@ class LangPT implements LangInterface {
         return 'Email da loja inválido.';
     }
 
+    public function invalidStoreName() {
+        return 'Nome da loja inválido.';
+    }
+
     public function invalidPassword(): string {
         return 'Senha não atende aos requisitos necessários.';
     }
@@ -117,4 +121,7 @@ class LangPT implements LangInterface {
         return 'Produto cadastrado com sucesso.';
     }
 
+    public function noDataToUpdate() {
+        return 'Não foram encontrados dados a serem atualizados.';
+    }
 }

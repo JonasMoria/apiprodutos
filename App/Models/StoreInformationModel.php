@@ -48,6 +48,9 @@ class StoreInformationModel {
     }
 
     public function setStoreName(string $name) {
+        if (!Validator::validateName($name)) {
+            throw new InvalidInputException($this->lang->invalidStoreName(), Http::BAD_REQUEST);
+        }
         $this->name = $name;
     }
 

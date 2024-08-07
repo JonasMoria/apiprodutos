@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Exceptions\InvalidInputException;
 use App\Traits\DatabaseFlags;
 
 class Validator {
