@@ -37,6 +37,22 @@ final class ProductDAO extends Connection{
                     ]);
     }
 
+    public function deleteProduct(int $storeId, int $productId) {
+        $query = "
+            UPDATE " .  $this->table . "
+            SET product_status = " . self::FLAG_INACTIVE . "
+            WHERE
+                product_id = ?
+                AND product_store_id = ?
+            LIMIT 1
+        ";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->execute([$productId, $storeId]);
+
+        return $stmt->rowCount();
+    }
+
     public function updateProduct(array $productFields) {
         $queryBuild = $this->convertObjectToSql($productFields);
 

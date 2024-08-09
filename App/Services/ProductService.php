@@ -115,4 +115,34 @@ final class ProductService {
             return Http::getJsonResponseErrorServer($response, $error);
         }
     }
+
+    public function deleteProduct(Request $request, Response $response, array $args) : Response {
+        try {
+            $loginParams = $request->getAttribute('jwt');
+            
+            $productId = Utils::filterNumbersOnly($args['id']);
+            if (empty($productId)) {
+                throw new InvalidInputException($this->lang->unidentifiedId(), Http::BAD_REQUEST);
+            }
+
+            if (!$loginParams) {
+                throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
+            }
+
+            $storeId = (int) $loginParams['store_id'];
+            $productId = (int) $productId;
+
+            $dao = new ProductDAO();
+            if (!$dao->deleteProduct($storeId, $productId)) {
+                throw new InvalidInputException($this->lang->deleteProductFail(), Http::BAD_REQUEST);
+            }
+
+            return Http::getJsonReponseSuccess($response, [], $this->lang->deleteProductSuccess(), Http::OK);
+
+        } catch (InvalidInputException $error) {
+            return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
+        } catch (\Exception $error) {
+            return Http::getJsonResponseErrorServer($response, $error);
+        }
+    }
 }
