@@ -16,4 +16,8 @@ class ProductController {
     public function putProduct(Request $request, Response $response, array $args) : Response {
         return $this->service->putProduct($request, $response, $args);
     }
+
+    public function updateProduct(Request $request, Response $response, array $args) : Response {
+        return $this->service->updateProduct($request, $response, $args);
+    }
 }

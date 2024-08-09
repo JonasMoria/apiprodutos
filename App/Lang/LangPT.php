@@ -124,4 +124,24 @@ class LangPT implements LangInterface {
     public function noDataToUpdate() {
         return 'Não foram encontrados dados a serem atualizados.';
     }
+
+    public function updateProductSuccess() {
+        return 'produto atualizado com sucesso.';
+    }
+
+    public function unidentifiedId() {
+        return 'Id não identificado.';
+    }
+
+    public function updateProductFail() {
+        return 'Falha ao excluir produto. Verifique os dados e tente novamente.';
+    }
+
+    public function deleteProductSuccess() {
+        return 'Produto deletado com sucesso.';
+    }
+
+    public function deleteProductFail() {
+        return 'Falha ao deletar produto.';
+    }
 }

@@ -124,4 +124,24 @@ class LangEN implements LangInterface {
     public function noDataToUpdate() {
         return 'No data found to be updated.';
     }
+
+    public function updateProductSuccess() {
+        return 'Product updated successfully.';
+    }
+
+    public function unidentifiedId() {
+        return 'Unidentified id.';
+    }
+
+    public function updateProductFail() {
+        return 'Failed to delete product. Check the data and try again.';
+    }
+
+    public function deleteProductSuccess() {
+        return 'Product deleted successfully.';
+    }
+
+    public function deleteProductFail() {
+        return 'Failed to delete product.';
+    }
 }

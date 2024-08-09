@@ -122,4 +122,24 @@ class LangES implements LangInterface {
     public function noDataToUpdate() {
         return 'No se encontraron datos actualizados.';
     }
+
+    public function updateProductSuccess() {
+        return 'Producto actualizado exitosamente.';
+    }
+
+    public function unidentifiedId() {
+        return 'Identificación no identificada.';
+    }
+
+    public function updateProductFail() {
+        return 'No se pudo eliminar el producto. Comprueba los datos y vuelve a intentarlo.';
+    }
+
+    public function deleteProductSuccess() {
+        return 'Producto eliminado exitosamente.';
+    }
+
+    public function deleteProductFail() {
+        return 'No se pudo eliminar el producto.';
+    }
 }

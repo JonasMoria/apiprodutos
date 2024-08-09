@@ -25,6 +25,7 @@ $api->group('/api/store', function() use ($api) {
 
 $api->group('/api/store/product', function() use ($api) {
     $api->post('/register', ProductController::class . ':putProduct');
+    $api->post('/update/{id}', ProductController::class . ':updateProduct');
 })
 ->add(AuthMiddleware::class . ':validateJwtToken')
 ->add(AuthMiddleware::jwtAuth());

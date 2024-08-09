@@ -7,6 +7,7 @@ interface LangInterface {
     public function serverError();
     public function success();
     public function invalidId();
+    public function unidentifiedId();
     public function invalidStoreEmail();
     public function invalidStoreName();
     public function invalidPassword();
@@ -33,4 +34,8 @@ interface LangInterface {
     public function invalidProductStatus();
     public function insertProductSuccess();
     public function noDataToUpdate();
+    public function updateProductSuccess();
+    public function updateProductFail();
+    public function deleteProductSuccess();
+    public function deleteProductFail();
 }

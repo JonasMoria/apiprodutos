@@ -36,4 +36,56 @@ final class ProductDAO extends Connection{
                         $product->getProductSKU()
                     ]);
     }
+
+    public function updateProduct(array $productFields) {
+        $queryBuild = $this->convertObjectToSql($productFields);
+
+        $query = "
+            UPDATE " . $this->table . "
+            SET
+                " . $queryBuild['sets'] . "
+            WHERE
+                product_store_id = ?
+                AND product_id = ?
+            LIMIT 1
+        ";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->execute($queryBuild['params']);
+
+        return $stmt->rowCount();
+    }
+
+    private function convertObjectToSql(array $productFields) {
+        $arrayPrepare = [];
+        $sets = [];
+
+        if (isset($productFields['name_pt'])) {
+            array_push($sets,'product_name_pt = ?');
+            array_push($arrayPrepare, $productFields['name_pt']);
+        }
+
+        if (isset($productFields['name_es'])) {
+            array_push($sets,'product_name_es = ?');
+            array_push($arrayPrepare, $productFields['name_es']);
+        }
+
+        if (isset($productFields['name_en'])) {
+            array_push($sets,'product_name_en = ?');
+            array_push($arrayPrepare, $productFields['name_en']);
+        }
+
+        if (isset($productFields['sku'])) {
+            array_push($sets,'product_sku = ? ');
+            array_push($arrayPrepare, $productFields['sku']);
+        }
+
+        array_push($arrayPrepare, $productFields['store_id']);
+        array_push($arrayPrepare, $productFields['product_id']);
+
+        return [
+            'sets' => implode(',', $sets),
+            'params' => $arrayPrepare
+        ];
+    }
 }
