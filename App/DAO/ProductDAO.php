@@ -104,4 +104,21 @@ final class ProductDAO extends Connection{
             'params' => $arrayPrepare
         ];
     }
+
+    public function putProductImage(int $storeId, int $productId, string $path) {
+        $query = "
+            UPDATE " . $this->table . "
+            SET
+                product_path_image = ?
+            WHERE
+                product_id = ?
+                AND product_store_id = ?
+            LIMIT 1
+        ";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->execute([$path, $productId, $storeId]);
+
+        return $stmt->rowCount();
+    }
 }

@@ -64,6 +64,19 @@ class ImageManager {
         return '';
     }
 
+    public function saveProductImage(int $storeID, int $productId, string $base64Image) {
+        $image = base64_decode($base64Image);
+        $repository = $this->makeStoreFolderPath($storeID);
+        $productPath = $this->createProductPngImagePath($storeID, $productId);
+
+        $pathContent = $repository . '/' . $productPath;
+        if (file_put_contents($pathContent, $image)) {
+            return $productPath;
+        }
+
+        return '';
+    }
+
     public function makeStoreFolderPath(int $storeID) {
         return $this->urlRepository . '/' . $storeID;
     }
@@ -71,5 +84,10 @@ class ImageManager {
     public function createPngImagePath(int $storeID) {
         $timestampImage = (new DateTime())->getTimestamp();
         return  $storeID . '_' . $timestampImage . '.png';
+    }
+
+    public function createProductPngImagePath(int $storeID, int $productId) {
+        $timestampImage = (new DateTime())->getTimestamp();
+        return  'prod_' . $storeID . '_' . $productId . '_' . $timestampImage . '.png';
     }
 }

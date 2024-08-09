@@ -4,12 +4,15 @@ namespace App\Services;
 
 use App\DAO\ProductDAO;
 use App\Exceptions\InvalidInputException;
+use App\Exceptions\UploadException;
 use App\Helpers\Http;
+use App\Helpers\ImageManager;
 use App\Helpers\Utils;
 use App\Helpers\Validator;
 use App\Lang\Lang;
 use App\Lang\LangInterface;
 use App\Models\ProductModel;
+use Dotenv\Exception\InvalidFileException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -141,6 +144,57 @@ final class ProductService {
 
         } catch (InvalidInputException $error) {
             return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
+        } catch (\Exception $error) {
+            return Http::getJsonResponseErrorServer($response, $error);
+        }
+    }
+
+    public function putImage(Request $request, Response $response, array $args) : Response {
+        try {
+            $params = $request->getParsedBody();
+            $loginParams = $request->getAttribute('jwt');
+            if (!isset($params['base64Image']) || !$loginParams) {
+                throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
+            }
+    
+            $productId = Utils::filterNumbersOnly($args['id']);
+            if (empty($productId)) {
+                throw new InvalidInputException($this->lang->unidentifiedId(), Http::BAD_REQUEST);
+            }
+    
+            $imageManager = new ImageManager();
+
+            $base64Image = $params['base64Image'];
+            if (!$imageManager->validateBase64Image($base64Image)) {
+                return Http::getJsonReponseError($response, $this->lang->notBase64valid(), Http::BAD_REQUEST);
+            }
+
+            if (!$imageManager->isFolderStoreCreated($loginParams['store_id'])) {
+                if (!$imageManager->createFolderStore($loginParams['store_id'])) {
+                    throw new UploadException($this->lang->noFolderCreated(), Http::SERVER_ERROR);
+                }
+            }
+
+            $storeId = (int) $loginParams['store_id'];
+
+            $productPath = $imageManager->saveProductImage($storeId, $productId, $base64Image);
+            if (empty($productPath)) {
+                throw new InvalidFileException($this->lang->noImageCreated(), Http::SERVER_ERROR);
+            }
+
+            $dao = new ProductDAO();
+            $dao->putProductImage($storeId, $productId, $productPath);
+
+            $arrayReturn = [
+                'url_image' => $imageManager->makeStoreFolderPath($loginParams['store_id']) . '/' . $productPath
+            ];
+
+            return Http::getJsonReponseSuccess($response, $arrayReturn, $this->lang->imageRegistered(), Http::CREATED);
+
+        } catch (InvalidInputException $error) {
+            return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
+        } catch (UploadException $upError) {
+            return Http::getJsonReponseError($response, $upError->getMessage(), $upError->getCode());
         } catch (\Exception $error) {
             return Http::getJsonResponseErrorServer($response, $error);
         }

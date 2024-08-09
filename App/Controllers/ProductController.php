@@ -24,4 +24,8 @@ class ProductController {
     public function deleteProduct(Request $request, Response $response, array $args) : Response {
         return $this->service->deleteProduct($request, $response, $args);
     }
+
+    public function putImage(Request $request, Response $response, array $args) : Response {
+        return $this->service->putImage($request, $response, $args);
+    }
 }
