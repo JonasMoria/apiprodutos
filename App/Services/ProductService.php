@@ -207,4 +207,44 @@ final class ProductService {
             return Http::getJsonResponseErrorServer($response, $error);
         }
     }
+
+    public function viewProduct(Request $request, Response $response, array $args) : Response {
+        try {
+            $loginParams = $request->getAttribute('jwt');
+
+            $productId = Utils::filterNumbersOnly($args['id']);
+            if (empty($productId)) {
+                throw new InvalidInputException($this->lang->unidentifiedId(), Http::BAD_REQUEST);
+            }
+
+            if (!$loginParams) {
+                throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
+            }
+
+            $storeId = (int) $loginParams['store_id'];
+            $productId = (int) $productId;
+
+            $dao = new ProductDAO();
+            $product = $dao->getProduct($storeId, $productId);
+
+            if (is_array($product) && isset($product['product_path_image'])) {
+                $imageManager = new ImageManager();
+
+                if (!empty($product['product_path_image'])) {
+                    $repository = $imageManager->makeStoreFolderPath($loginParams['store_id']);
+                    $imagePath = $repository . '/' . $product['product_path_image'];
+                    $product['product_path_image'] = $imagePath;
+                } else {
+                    $product['product_path_image'] = $imageManager->makeUrlNoImage();
+                }
+            }
+
+            return Http::getJsonReponseSuccess($response, $product, $this->lang->success(), Http::OK);
+
+        } catch (InvalidInputException $error) {
+            return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
+        } catch (\Exception $error) {
+            return Http::getJsonResponseErrorServer($response, $error);
+        }
+    }
 }

@@ -25,6 +25,7 @@ $api->group('/api/store', function() use ($api) {
 
 // Product Routes
 $api->group('/api/store/product', function() use ($api) {
+    $api->get('/view/{id}', ProductController::class . ':viewProduct');
     $api->post('/register', ProductController::class . ':putProduct');
     $api->post('/update/{id}', ProductController::class . ':updateProduct');
     $api->post('/update/logo/{id}', ProductController::class . ':putImage');

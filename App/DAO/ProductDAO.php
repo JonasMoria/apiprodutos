@@ -140,4 +140,36 @@ final class ProductDAO extends Connection{
         
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getProduct(int $storeId, $productId) {
+        $productObj = [];
+
+        $query = "
+            SELECT
+                P.product_id,
+                P.product_views,
+                P.product_name_pt,
+                P.product_name_en,
+                P.product_name_es,
+                P.product_sku,
+                P.product_path_image,
+                P.product_status
+            FROM
+                " . $this->table . " P
+            WHERE
+                P.product_id = ?
+                AND P.product_store_id = ?
+            LIMIT 1
+        ";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->execute([$productId, $storeId]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (is_array($result)) {
+            return $result;
+        }
+
+        return [];
+    }
 }

@@ -81,6 +81,10 @@ class ImageManager {
         return $this->urlRepository . '/' . $storeID;
     }
 
+    public function makeUrlNoImage() {
+        return $this->urlRepository . '/' . 'image_not_found.png';
+    }
+
     public function createPngImagePath(int $storeID) {
         $timestampImage = (new DateTime())->getTimestamp();
         return  'logo_' . $storeID . '_' . $timestampImage . '.png';
