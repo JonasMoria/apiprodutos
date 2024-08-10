@@ -5,6 +5,7 @@ namespace App\DAO;
 use App\Database\Connection;
 use App\Models\ProductModel;
 use App\Traits\DatabaseFlags;
+use PDO;
 
 final class ProductDAO extends Connection{
     //Traits
@@ -120,5 +121,23 @@ final class ProductDAO extends Connection{
         $stmt->execute([$path, $productId, $storeId]);
 
         return $stmt->rowCount();
+    }
+
+    public function getImageProduct(int $storeId, int $productId) {
+        $query = "
+            SELECT
+               P.product_path_image AS img
+            FROM
+                " . $this->table. " P
+            WHERE
+                P.product_id = ?
+                AND P.product_store_id = ?
+            LIMIT 1
+        ";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->execute([$productId, $storeId]);
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

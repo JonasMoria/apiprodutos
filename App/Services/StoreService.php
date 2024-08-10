@@ -59,19 +59,23 @@ class StoreService {
         try {
             $params = $request->getParsedBody();
             $loginParams = $request->getAttribute('jwt');
-
-            $storeInfoDAO = new StoreInfoDAO();
-            if ($storeInfoDAO->getStorePathLogo($loginParams['store_id'])[0]['store_path_logo']) {
-                throw new InvalidInputException($this->lang->logoAlreadyExists(), Http::BAD_REQUEST);
-            }
-
+            
             if (!$params || !$loginParams) {
                 throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
             }
 
+            $imageManager = new ImageManager();
+            $storeInfoDAO = new StoreInfoDAO();
+
+            $pathImageSaved = $storeInfoDAO->getStorePathLogo($loginParams['store_id'])[0]['store_path_logo'];
+            if ($pathImageSaved) {
+                $repository = $imageManager->makeStoreFolderPath($loginParams['store_id']);
+                $imagePath  = $repository . '/' . $pathImageSaved;
+                $imageManager->deleteImage($imagePath);
+            }
+
             $base64Image = $params['base64Image'];
 
-            $imageManager = new ImageManager();
             if (!$imageManager->validateBase64Image($base64Image)) {
                 return Http::getJsonReponseError($response, $this->lang->notBase64valid(), Http::BAD_REQUEST);
             }

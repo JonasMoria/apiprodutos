@@ -161,8 +161,17 @@ final class ProductService {
             if (empty($productId)) {
                 throw new InvalidInputException($this->lang->unidentifiedId(), Http::BAD_REQUEST);
             }
-    
+
             $imageManager = new ImageManager();
+
+            $dao = new ProductDAO();
+            $productImagePath = $dao->getImageProduct($loginParams['store_id'], $productId);
+            if ($productImagePath['img']) {
+                $repository = $imageManager->makeStoreFolderPath($loginParams['store_id']);
+                $imagePath = $repository . '/' . $productImagePath['img'];
+                $imageManager->deleteImage($imagePath);
+            }
+    
 
             $base64Image = $params['base64Image'];
             if (!$imageManager->validateBase64Image($base64Image)) {
@@ -182,7 +191,6 @@ final class ProductService {
                 throw new InvalidFileException($this->lang->noImageCreated(), Http::SERVER_ERROR);
             }
 
-            $dao = new ProductDAO();
             $dao->putProductImage($storeId, $productId, $productPath);
 
             $arrayReturn = [

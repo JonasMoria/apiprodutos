@@ -83,11 +83,15 @@ class ImageManager {
 
     public function createPngImagePath(int $storeID) {
         $timestampImage = (new DateTime())->getTimestamp();
-        return  $storeID . '_' . $timestampImage . '.png';
+        return  'logo_' . $storeID . '_' . $timestampImage . '.png';
     }
 
     public function createProductPngImagePath(int $storeID, int $productId) {
         $timestampImage = (new DateTime())->getTimestamp();
         return  'prod_' . $storeID . '_' . $productId . '_' . $timestampImage . '.png';
+    }
+
+    public function deleteImage(string $path) {
+        return unlink($path);
     }
 }
