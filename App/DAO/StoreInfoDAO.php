@@ -18,11 +18,14 @@ final class StoreInfoDAO extends Connection {
     public function getStoreInformationByStoreId(int $storeId) {
         $query = "
             SELECT
-                SI.*
+                SI.*,
+                ST_X(store_coordinate) as lon,
+                ST_Y(store_coordinate) as lat
             FROM
                 " . $this->table . " SI
             WHERE
                 SI.store_info_store_id = ?
+            LIMIT 1
         ";
 
         $request = $this->database->prepare($query);
@@ -30,7 +33,7 @@ final class StoreInfoDAO extends Connection {
             $storeId
         ]);
 
-        return $request->fetchAll(PDO::FETCH_ASSOC);
+        return $request->fetch(PDO::FETCH_ASSOC);
     }
 
     public function insertInfoStore(StoreInformationModel $store) {

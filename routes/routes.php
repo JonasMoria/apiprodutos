@@ -12,6 +12,8 @@ $api->group('/api', function() use ($api) {
     $api->get('/ping', ApiController::class . ':testConnection');
     $api->post('/register', ApiController::class . ':register');
     $api->post('/login', ApiController::class . ':login');
+    // Public store routes
+    $api->get('/store/view/{id}', StoreController::class . ':getStoreData');
 });
 
 // Store Routes

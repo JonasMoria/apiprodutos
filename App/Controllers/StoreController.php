@@ -24,4 +24,8 @@ class StoreController {
     public function putLogoImage(Request $request, Response $response, array $args) : Response {
         return $this->service->putStoreLogo($request, $response, $args);
     }
+
+    public function getStoreData(Request $request, Response $response, array $args) : Response {
+        return $this->service->getStore($request, $response, $args);
+    }
 }

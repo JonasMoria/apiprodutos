@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DAO\StoreDAO;
 use App\DAO\StoreInfoDAO;
 use App\Exceptions\InvalidInputException;
 use App\Exceptions\UploadException;
@@ -156,6 +157,47 @@ class StoreService {
             $storeInfoDAO->updateStore($fieldsToUpdate);
 
             return Http::getJsonReponseSuccess($response, [], $this->lang->storeInformationRegistered(), Http::CREATED);
+
+        } catch (InvalidInputException $error) {
+            return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
+        } catch (\Exception $error) {
+            return Http::getJsonResponseErrorServer($response, $error);
+        }
+    }
+
+    public function getStore(Request $request, Response $response, array $args) : Response {
+        try {
+
+            $storeId = (int) Utils::filterNumbersOnly($args['id']);
+            if (empty($storeId) || !Validator::validateId($storeId)) {
+                throw new InvalidInputException($this->lang->invalidId(), Http::BAD_REQUEST);
+            }
+
+            $dao = new StoreInfoDAO();
+            $storeInfo = $dao->getStoreInformationByStoreId($storeId);
+
+            $storeData = [];
+            if (!empty($storeInfo)) {
+                $imageManager = new ImageManager();
+                $logoPath = $imageManager->makeStoreFolderPath($storeId);
+
+                if ($storeInfo['store_path_logo']) {
+                    $logoPath .= '/' . $storeInfo['store_path_logo'];
+                } else {
+                    $logoPath = $imageManager->makeUrlNoImage();
+                }
+
+                $storeData = [
+                    'id' => $storeInfo['store_info_store_id'],
+                    'name' => $storeInfo['store_name'],
+                    'email' => $storeInfo['store_email'],
+                    'logo' => $logoPath,
+                    'latitude' => $storeInfo['lat'],
+                    'longitude' => $storeInfo['lon'],
+                ];
+            }
+
+            return Http::getJsonReponseSuccess($response, $storeData, $this->lang->success(), Http::OK);
 
         } catch (InvalidInputException $error) {
             return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
