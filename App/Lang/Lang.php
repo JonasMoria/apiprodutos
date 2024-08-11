@@ -11,6 +11,10 @@ class Lang {
     const EN_LANGS = ['en'];
 
     public static function getLang() {
+        if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
+        }
+
         $lang = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
         if (in_array($lang, self::PT_LANGS)) {
@@ -23,7 +27,7 @@ class Lang {
             return new LangEN;
         }
 
-        throw new InvalidInputException('Language is not defined or alowed. Check your header parameters.', Http::BAD_REQUEST);
+        return new LangEN;
     }
 
     public function serverError(LangInterface $lang) {
