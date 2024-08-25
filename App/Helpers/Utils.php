@@ -14,4 +14,14 @@ class Utils {
     public static function filterNumbersOnly(string $string) {
         return preg_replace('/[^0-9]/', '', $string);
     }
+
+    public static function convertToFloat(string $number) {
+        $numberFloat = (float) $number;
+
+        if (!is_float($numberFloat) || empty($numberFloat)) {
+            return 0;
+        }
+
+        return $numberFloat;
+    }
 }

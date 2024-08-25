@@ -28,4 +28,8 @@ class StoreController {
     public function getStoreData(Request $request, Response $response, array $args) : Response {
         return $this->service->getStore($request, $response, $args);
     }
+
+    public function getNearbyStores(Request $request, Response $response, array $args) : Response {
+        return $this->service->getNearbyStores($request, $response, $args);
+    }
 }

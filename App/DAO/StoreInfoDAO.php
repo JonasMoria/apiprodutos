@@ -3,7 +3,6 @@
 namespace App\DAO;
 
 use App\Database\Connection;
-use App\Helpers\Utils;
 use App\Models\StoreInformationModel;
 use PDO;
 
@@ -19,8 +18,8 @@ final class StoreInfoDAO extends Connection {
         $query = "
             SELECT
                 SI.*,
-                ST_X(store_coordinate) as lon,
-                ST_Y(store_coordinate) as lat
+                ST_X(store_coordinate) AS lon,
+                ST_Y(store_coordinate) AS lat
             FROM
                 " . $this->table . " SI
             WHERE
@@ -52,8 +51,8 @@ final class StoreInfoDAO extends Connection {
                 $store->getStoreName(),
                 $store->getStoreEmail(),
                 $store->getStoreCnpj(),
+                $store->getStoreLongitude(),
                 $store->getStoreLatitude(),
-                $store->getStoreLongitude()
             ]);
     }
 
@@ -132,8 +131,8 @@ final class StoreInfoDAO extends Connection {
 
         if (isset($storeFields['lat']) && isset($storeFields['lon'])) {
             array_push($sets,'store_coordinate = POINT(?, ?)');
-            array_push($arrayPrepare, $storeFields['lat']);
             array_push($arrayPrepare, $storeFields['lon']);
+            array_push($arrayPrepare, $storeFields['lat']);
         }
 
         array_push($arrayPrepare, $storeFields['store_id']);
@@ -142,5 +141,42 @@ final class StoreInfoDAO extends Connection {
             'sets' => implode(',', $sets),
             'params' => $arrayPrepare
         ];
+    }
+
+    public function findStoresByCoordinates(float $latitude, float $longitude, float $radius) {
+        $query = "
+            SELECT 
+                store_info_store_id AS id,
+                store_name AS name,
+                store_email AS email,
+                store_cnpj AS cnpj,
+                ST_Y(store_coordinate) AS latitude,
+                ST_X(store_coordinate) AS longitude,
+                (
+                    6371 * 
+                    acos(
+                        cos(radians(?)) * 
+                        cos(radians(ST_Y(store_coordinate))) * 
+                        cos(radians(ST_X(store_coordinate)) - radians(?)) + 
+                        sin(radians(?)) * 
+                        sin(radians(ST_Y(store_coordinate)))
+                    )
+                ) AS distance
+            FROM 
+                stores_informations
+            HAVING 
+                distance < ?
+            LIMIT 20
+        ";
+
+        $request = $this->database->prepare($query);
+        $request->execute([
+            $latitude,
+            $longitude,
+            $latitude,
+            $radius
+        ]);
+
+        return $request->fetchAll(PDO::FETCH_ASSOC);
     }
 }

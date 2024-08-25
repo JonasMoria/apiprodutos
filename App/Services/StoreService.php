@@ -205,4 +205,28 @@ class StoreService {
             return Http::getJsonResponseErrorServer($response, $error);
         }
     }
+
+    public function getNearbyStores(Request $request, Response $response, array $args) : Response {
+        try {
+
+            $params = $request->getParsedBody();
+            if (!$params) {
+                throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
+            }
+
+            $latitude = Utils::convertToFloat($params['lat']);
+            $longitude = Utils::convertToFloat($params['lon']);
+            $radius = Utils::convertToFloat($params['radius']);
+
+            $dao = new StoreInfoDAO();
+            $stores = $dao->findStoresByCoordinates($latitude, $longitude, $radius);
+
+            return Http::getJsonReponseSuccess($response, $stores, $this->lang->success(), Http::OK);
+
+        } catch (InvalidInputException $error) {
+            return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
+        } catch (\Exception $error) {
+            return Http::getJsonResponseErrorServer($response, $error);
+        }
+    }
 }

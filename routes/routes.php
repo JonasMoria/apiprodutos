@@ -14,6 +14,7 @@ $api->group('/api', function() use ($api) {
     $api->post('/login', ApiController::class . ':login');
     // Public store routes
     $api->get('/store/view/{id}', StoreController::class . ':getStoreData');
+    $api->post('/store/find/location', StoreController::class . ':getNearbyStores');
 });
 
 // Store Routes
