@@ -214,6 +214,10 @@ class StoreService {
                 throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
             }
 
+            if (!is_array($params) || !Validator::arrayKeysExists(['lat', 'lon', 'radius'], $params)) {
+                throw new InvalidInputException($this->lang->invalidRequestParams(), Http::BAD_REQUEST);
+            }
+
             $latitude = Utils::convertToFloat($params['lat']);
             $longitude = Utils::convertToFloat($params['lon']);
             $radius = Utils::convertToFloat($params['radius']);

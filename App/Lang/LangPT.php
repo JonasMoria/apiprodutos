@@ -33,6 +33,10 @@ class LangPT implements LangInterface {
         return 'Parâmetros não indentificados.';
     }
 
+    public function invalidRequestParams() {
+        return 'Existem parâmetros não permitidos nesta request. Verifique-os e tente novamente.';
+    }
+
     public function loginSuccess() {
         return 'Login realizado com sucesso.';
     }

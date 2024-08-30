@@ -32,6 +32,10 @@ final class ProductService {
                 throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
             }
 
+            if (!is_array($params) || !Validator::arrayKeysExists(['name_pt', 'name_en', 'name_es', 'sku'], $params)) {
+                throw new InvalidInputException($this->lang->invalidRequestParams(), Http::BAD_REQUEST);
+            }
+
             $product = new ProductModel();
             $product->setStoreId($loginParams['store_id']);
             $product->setNamePortuguese($params['name_pt']);

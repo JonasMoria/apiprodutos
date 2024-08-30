@@ -39,6 +39,10 @@ final class ApiService {
                 throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
             }
 
+            if (!is_array($params) || !Validator::arrayKeysExists(['email', 'password'], $params)) {
+                throw new InvalidInputException($this->lang->invalidRequestParams(), Http::BAD_REQUEST);
+            }
+
             $store = new StoreModel();
             $store->setId(0);
             $store->setEmail($params['email']);
@@ -66,6 +70,10 @@ final class ApiService {
             $params = $request->getParsedBody();
             if (!$params) {
                 throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
+            }
+
+            if (!is_array($params) || !Validator::arrayKeysExists(['email', 'password'], $params)) {
+                throw new InvalidInputException($this->lang->invalidRequestParams(), Http::BAD_REQUEST);
             }
 
             $store = new StoreModel();

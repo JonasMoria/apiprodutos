@@ -82,4 +82,9 @@ class Validator {
 
         return true;
     }
+
+    public static function arrayKeysExists(array $keys, $array): bool {
+        $diff = array_diff_key(array_flip($keys), $array);
+        return count($diff) === 0;
+    }
 }

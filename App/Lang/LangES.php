@@ -31,6 +31,10 @@ class LangES implements LangInterface {
         return 'Parámetros no identificados.';
     }
 
+    public function invalidRequestParams() {
+        return 'Hay parámetros no permitidos en esta solicitud. Verifícalos e inténtalo de nuevo.';
+    }
+
     public function loginSuccess() {
         return 'Inicio de sesión correcto.';
     }

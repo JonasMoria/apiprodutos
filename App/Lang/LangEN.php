@@ -33,6 +33,10 @@ class LangEN implements LangInterface {
         return 'Unidentified parameters.';
     }
 
+    public function invalidRequestParams() {
+        return 'There are parameters not allowed in this request. Please check them and try again.';
+    }
+
     public function loginSuccess() {
         return 'Login successful.';
     }
