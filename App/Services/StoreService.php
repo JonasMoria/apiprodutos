@@ -65,6 +65,10 @@ class StoreService {
                 throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
             }
 
+            if (!is_array($params) || !Validator::arrayKeysExists(['base64Image'], $params)) {
+                throw new InvalidInputException($this->lang->invalidRequestParams(), Http::BAD_REQUEST);
+            }
+
             $imageManager = new ImageManager();
             $storeInfoDAO = new StoreInfoDAO();
 

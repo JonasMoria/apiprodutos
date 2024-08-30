@@ -157,8 +157,12 @@ final class ProductService {
         try {
             $params = $request->getParsedBody();
             $loginParams = $request->getAttribute('jwt');
-            if (!isset($params['base64Image']) || !$loginParams) {
+            if (!isset($params) || !$loginParams) {
                 throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
+            }
+
+            if (!is_array($params) || !Validator::arrayKeysExists(['base64Image'], $params)) {
+                throw new InvalidInputException($this->lang->invalidRequestParams(), Http::BAD_REQUEST);
             }
     
             $productId = Utils::filterNumbersOnly($args['id']);
