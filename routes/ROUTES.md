@@ -166,4 +166,24 @@
 | lon | Float | Sim |
 | radius | Float | Sim |
 
+#### Busca de produtos com base em filtros
+| Requisição | URL | Detalhes |
+| --- | --- | --- |
+| POST | /store/find/products | - |
+
+| Dado | Tipo | Obrigatório |
+| --- | --- | --- |
+| name_pt | Float | Não |
+| name_en | Float | Não |
+| name_es | Float | Não |
+
+#### JSON: 
+```yaml
+{
+    "name_pt" : "teste",
+    "name_en" : "test",
+    "name_es" : "prueba"
+}
+```
+
 

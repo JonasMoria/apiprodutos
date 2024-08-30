@@ -247,4 +247,36 @@ final class ProductService {
             return Http::getJsonResponseErrorServer($response, $error);
         }
     }
+
+    public function searchProducts(Request $request, Response $response, array $args) : Response {
+        try {
+            $params = $request->getParsedBody();
+            if (!$params) {
+                throw new InvalidInputException($this->lang->notParamsDetected(), Http::BAD_REQUEST);
+            }
+
+            $searchFilters = [];
+            if (isset($params['name_pt'])) {
+                $searchFilters['name_pt'] = $params['name_pt'];
+            }
+
+            if (isset($params['name_en'])) {
+                $searchFilters['name_en'] = $params['name_en'];
+            }
+
+            if (isset($params['name_es'])) {
+                $searchFilters['name_es'] = $params['name_es'];
+            }
+
+            $dao = new ProductDAO();
+            $products = $dao->findProducts($searchFilters);
+
+            return Http::getJsonReponseSuccess($response, $products, $this->lang->success(), Http::OK);
+
+        } catch (InvalidInputException $error) {
+            return Http::getJsonReponseError($response, $error->getMessage(), $error->getCode());
+        } catch (\Exception $error) {
+            return Http::getJsonResponseErrorServer($response, $error);
+        }
+    }
 }

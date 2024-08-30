@@ -142,8 +142,6 @@ final class ProductDAO extends Connection{
     }
 
     public function getProduct(int $storeId, $productId) {
-        $productObj = [];
-
         $query = "
             SELECT
                 P.product_id,
@@ -159,11 +157,12 @@ final class ProductDAO extends Connection{
             WHERE
                 P.product_id = ?
                 AND P.product_store_id = ?
+                AND P.product_status = ?
             LIMIT 1
         ";
 
         $stmt = $this->database->prepare($query);
-        $stmt->execute([$productId, $storeId]);
+        $stmt->execute([$productId, $storeId, self::FLAG_ACTIVE]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (is_array($result)) {
@@ -171,5 +170,70 @@ final class ProductDAO extends Connection{
         }
 
         return [];
+    }
+
+    public function findProducts(array $filters) : array {
+        if (empty($filters)) {
+            return [];
+        }
+
+        $queryAux = $this->buildWhereFindProducts($filters);
+
+        $query = "
+            SELECT
+                SI.store_name,
+                SI.store_email,
+                P.product_id,
+                P.product_views,
+                P.product_name_pt,
+                P.product_name_en,
+                P.product_name_es,
+                P.product_sku,
+                P.product_path_image,
+                P.product_status
+            FROM
+                " . $this->table . " P
+            INNER JOIN
+                stores_informations SI
+                    ON SI.store_info_store_id = P.product_store_id
+            WHERE
+                " . $queryAux['filters'] . "
+            LIMIT 50
+        ";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->execute($queryAux['binds']);
+
+        $produtcs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (is_array($produtcs)) {
+            return $produtcs;
+        }
+
+        return [];
+    }
+
+    private function buildWhereFindProducts(array $filters) {
+        $wheres = 'P.product_status = ?';
+        $binds = [self::FLAG_ACTIVE];
+
+        if (isset($filters['name_pt'])) {
+            $wheres .= ' AND P.product_name_pt LIKE ?';
+            array_push($binds, '%' . $filters['name_pt'] . '%');
+        }
+
+        if (isset($filters['name_en'])) {
+            $wheres .= ' AND P.product_name_en LIKE ?';
+            array_push($binds, '%' . $filters['name_en'] . '%');
+        }
+
+        if (isset($filters['name_es'])) {
+            $wheres .= ' AND P.product_name_es LIKE ?';
+            array_push($binds, '%' . $filters['name_es'] . '%');
+        }
+
+        return [
+            'filters' => $wheres,
+            'binds' => $binds
+        ];
     }
 }

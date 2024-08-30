@@ -32,4 +32,8 @@ class ProductController {
     public function viewProduct(Request $request, Response $response, array $args) : Response {
         return $this->service->viewProduct($request, $response, $args);
     }
+
+    public function searchProducts(Request $request, Response $response, array $args) : Response {
+        return $this->service->searchProducts($request, $response, $args);
+    }
 }
