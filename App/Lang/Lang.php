@@ -2,9 +2,6 @@
 
 namespace App\Lang;
 
-use App\Exceptions\InvalidInputException;
-use App\Helpers\Http;
-
 class Lang {
     const PT_LANGS = ['pt'];
     const ES_LANGS = ['es'];
@@ -28,17 +25,5 @@ class Lang {
         }
 
         return new LangEN;
-    }
-
-    public function serverError(LangInterface $lang) {
-        return $lang->serverError();
-    }
-
-    public function success(LangInterface $lang) {
-        return $lang->success();
-    }
-
-    public function invalidId(LangInterface $lang) {
-            return $lang->invalidId();
     }
 }
