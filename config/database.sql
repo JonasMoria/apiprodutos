@@ -1,6 +1,7 @@
 
 DROP TABLE IF EXISTS apiproducts;
 CREATE DATABASE apiproducts CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 USE apiproducts;
 
 DROP TABLE IF EXISTS `stores`;
@@ -13,6 +14,9 @@ CREATE TABLE `stores` (
     
     PRIMARY KEY (store_id)
 );
+
+ALTER TABLE `stores`
+ADD INDEX `idx_email_pass` (store_email, store_password)
 
 DROP TABLE IF EXISTS `stores_informations`;
 CREATE TABLE `stores_informations` (
@@ -45,4 +49,5 @@ CREATE TABLE `stores_products` (
     CONSTRAINT fk_product_store_id FOREIGN KEY (product_store_id) REFERENCES stores(store_id)
 );
 
-
+ALTER TABLE `stores_products`
+ADD INDEX `idx_pId_ps_id_ps` (product_id, product_store_id, product_status);
