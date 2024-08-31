@@ -16,7 +16,7 @@ CREATE TABLE `stores` (
 );
 
 ALTER TABLE `stores`
-ADD INDEX `idx_email_pass` (store_email, store_password)
+ADD INDEX `idx_email_pass` (store_email, store_password);
 
 DROP TABLE IF EXISTS `stores_informations`;
 CREATE TABLE `stores_informations` (
